@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const { DB_URI } = require("./index");
 
 const connectDatabase = () => {
   mongoose
-    .connect(process.env.DB_URI, {
+    .connect(DB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       //   useCreateIndex: true,
