@@ -1,8 +1,6 @@
 const app = require("./app");
 const { APP_PORT } = require("./config");
 
-
-
 const connectDatabase = require("./config/db");
 
 // Handeling Uncaught Exceptions
@@ -14,12 +12,11 @@ process.on("uncaughtException", (err) => {
 
 // config
 
-
 // connecting database
 connectDatabase();
 
-app.listen(APP_PORT || 5000, () => {
-  console.log(`server is listening on port ${APP_PORT || 5000}`);
+app.listen(APP_PORT || 8080, () => {
+  console.log(`server is listening on port ${APP_PORT || 8080}`);
 });
 
 // Unhandled Promise Rejection

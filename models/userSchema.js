@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Joi = require('joi');
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => /^\d{10}$/.test(value),
-      message: 'Phone number must be a 10-digit number',
+      message: "Phone number must be a 10-digit number",
     },
   },
   first_name: {
@@ -55,11 +55,11 @@ const userSchema = new mongoose.Schema({
     maxlength: 50,
   },
   receiptImage: {
-    type: Buffer, // Adjust this for file validation if needed
+    type: String,
   },
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 function validateUser(user) {
   const schema = Joi.object({
@@ -77,7 +77,7 @@ function validateUser(user) {
     expectation: Joi.string().max(500),
     payment_id: Joi.string().allow(""),
     trId: Joi.string().max(50),
-    receiptImage: Joi.any(), // Adjust this for file validation
+    receiptImage: Joi.string().required(), // Adjust this for file validation
   });
 
   return schema.validate(user);
