@@ -1,33 +1,21 @@
-const mongoose = require("mongoose");
+const Joi = require("joi");
 
-// Define the user schema
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true, // Ensure email addresses are unique
-    trim: true, // Remove leading/trailing spaces
-  },
-  phone: {
-    type: String,
-    required: true,
-    maxLength: [10, "Phone Number must contain 10 characters only"],
-    trim: true,
-  },
-  first_name: String,
-  middleName: String,
-  last_name: String,
-  year: String,
-  div: String,
-  roll_no: String,
-  department: String,
-  expectation: String,
-  payment_id: String,
-  reciept_img: Buffer,
-  trId: String,
+const userSchema = Joi.object({
+  email: Joi.string().email().required(),
+  phone: Joi.string()
+    .regex(/^\d{10}$/)
+    .required(),
+  first_name: Joi.string().max(50),
+  middleName: Joi.string().max(50),
+  last_name: Joi.string().max(50),
+  year: Joi.string().valid("FE", "SE", "TE", "BE"),
+  div: Joi.string().max(10),
+  roll_no: Joi.string().max(20),
+  department: Joi.string().max(50),
+  expectation: Joi.string().max(500),
+  payment_id: Joi.string().allow(""),
+  trId: Joi.string().max(50),
+  receiptImage: Joi.any(), //adjust this for file validation
 });
 
-// Create the User model
-const User = mongoose.model("User", userSchema);
-
-module.exports = User;
+module.exports = userSchema;
