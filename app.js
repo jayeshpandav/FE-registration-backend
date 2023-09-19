@@ -34,11 +34,27 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/users", async (req, res) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const pageSize = parseInt(req.query.pageSize) || 10; // Default page size
+
   try {
-    const users = await User.find();
-    res.status(200).json(users);
+    const skip = (page - 1) * pageSize;
+    const totalUsers = await User.countDocuments(); // Get the total number of users
+    const users = await User.find().skip(skip).limit(pageSize);
+
+    const totalPages = Math.ceil(totalUsers / pageSize);
+
+    res.status(200).json({
+      users,
+      pageInfo: {
+        currentPage: page,
+        pageSize,
+        totalPages,
+        totalUsers,
+      },
+    });
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error retrieving paginated users:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
