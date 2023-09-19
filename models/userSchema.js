@@ -68,13 +68,13 @@ function validateUser(user) {
       .regex(/^\d{10}$/)
       .required(),
     first_name: Joi.string().max(50),
-    middleName: Joi.string().max(50),
+    middleName: Joi.string().max(50).allow(""),
     last_name: Joi.string().max(50),
     year: Joi.string().valid("FE", "SE", "TE", "BE"),
     div: Joi.string().max(10),
     roll_no: Joi.string().max(20),
     department: Joi.string().max(50),
-    expectation: Joi.string().max(500),
+    expectation: Joi.string().max(500).allow(""),
     payment_id: Joi.string().allow(""),
     trId: Joi.string().max(50),
     receiptImage: Joi.string().required(), // Adjust this for file validation
